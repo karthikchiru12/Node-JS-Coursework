@@ -315,7 +315,7 @@ console.log(va1, va2, va3, va4);
 
 ### Template literals
 
-- The conventional way to use variables withing the strings :
+- The conventional way to use variables within the strings :
 
 ```
 const name = "Karthik";
@@ -328,3 +328,51 @@ console.log("My name is " + name + " and I am " + age + " years old.");
 ```
 console.log(`My name is  ${name}  and I am  ${age}  years old.`);
 ```
+
+### Asynchronous code
+
+- **setTimeout()** function executes the code/function which is given as first argument after a delay of some milliseconds, which is given as the second argument.
+
+```
+setTimeout(() => {
+console.log("Inside setTmeout");
+}, 2000);
+console.log("Hello");
+console.log("World");
+```
+
+- Now the output of the above code snippet would be in this order:
+
+Hello
+World 
+//after 2 milliseconds//
+Inside setTimeout
+
+- Now the logic written inside the **setTimeout()** function is the asynchronous code, i.e it does not execute immediately. Wheareas the two console.log() statements after that are asynchronous.
+- So whenever JavaScript is executing from top to down, it recognizes that there is a call back function which needs to be called once the timer runs out, and then it executes the other synchronous statements.
+- Using callback functions like in the above example wont be a problem until there are multiple async operations dependent on each other.
+
+```
+const fetchData = callback => {
+	setTimeout(() => {
+		callback("Done!");
+	}, 3000);
+};
+
+setTimeout( () => {
+	console.log("Timer is done!");
+	fetchData(text => {
+		console.log(text);
+	})
+} ,2000);
+
+console.log("Hello");
+console.log("World");
+```
+- The output of the above code snippet will be :
+Hello
+World
+//after 2 milliseconds
+Timer is done!
+//after 3 milliseconds
+Done!
