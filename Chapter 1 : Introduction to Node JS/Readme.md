@@ -61,7 +61,7 @@ const fs = require('fs');
 ```
 //app_write_to_file.js
 const fs = require('fs');
-fs.writeFileSync('sample1.txt','This is a sample.')
+fs.writeFileSync('sample1.txt','This is a sample.');
 ```
 
 - When you execute the **.js** file, you can find a sample1.txt file in your directory.
