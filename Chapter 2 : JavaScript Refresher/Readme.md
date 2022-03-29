@@ -343,9 +343,9 @@ console.log("World");
 
 - Now the output of the above code snippet would be in this order:
 
-Hello
-World 
-//after 2 milliseconds//
+Hello\
+World \
+//after 2 milliseconds//\
 Inside setTimeout
 
 - Now the logic written inside the **setTimeout()** function is the asynchronous code, i.e it does not execute immediately. Wheareas the two console.log() statements after that are asynchronous.
@@ -370,9 +370,9 @@ console.log("Hello");
 console.log("World");
 ```
 - The output of the above code snippet will be :
-Hello
-World
-//after 2 milliseconds
-Timer is done!
-//after 3 milliseconds
+Hello\
+World\
+//after 2 milliseconds\
+Timer is done!\
+//after 3 milliseconds\
 Done!
