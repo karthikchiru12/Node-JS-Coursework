@@ -316,11 +316,88 @@ fs.writeFile("filename.txt", "Some dummy text", err => {
 
 ![Event loop.svg](Event%20loop.svg)
 
-- The Node JS runs non-blocking
+- The Node JS runs non-blocking JS code and uses an event-driven code (event loop) for running your logic.
+- The node program exists as soon as there is no work to do. But the **createServer()** event never finishes by default. 
+- Node JS uses callbacks and events to handle the tasks.
 
 
+### Using the node modules
 
+- Let us say you want to handle the routing logic in a separate file, and file operations on a separate file and want to link all of them together, then we can use the Node JS **module.exports**.
+- So we create **routing.js** file. In which we create an arrow function in which we put the routing logic. And now we need to export this function.
+- To do this we can assign an object of key value pairs to **module.exports**.
 
+```
+module.exports = {
+    handler : requestHandler,
+    hardCodedText : "Learning Node JS"
+};
+```
+
+- And we can add the above code at the end of routing.js file.
+- We can also use another way to do module.exports.
+
+```
+module.exports.handler = requestHandler;
+module.exports.hardCodedText = "Learning Node JS";
+```
+- Both of the above ways are one and the same. And instead of using **module.exports.handler = requestHandler;**, we can simply use **exports.handler = requestHandler;**. And using just exports is a shortcut.
+
+```
+//routing.js
+const requestHandler = (request, response) =>
+{
+    const url = request.url;
+    const method = request.method;
+    if (url === '/') {
+        response.setHeader("Content-type", "text/html");
+        response.write("<h1>This is the home page!</h1>");
+        response.write(`<form action="/message" method="POST"><input tye="text" name="message_id"><button type="submit">Zap</button></form>`);
+        return response.end();
+    }
+    if (url === '/message' && method === 'POST') {
+        
+    const body = [];
+	request.on("data",(chunk) => {
+	body.push(chunk);
+	console.log(chunk);
+	});
+
+    var parsedBody = "";
+	
+	request.on("end",() => {
+	parsedBody = Buffer.concat(body).toString();
+	console.log(parsedBody);
+    response.setHeader("Content-type", "text/html");
+    response.write("<h1>Success! check your console </h1>");
+    return response.end();
+	});
+
+    }
+};
+
+module.exports = {
+    handler : requestHandler
+};
+```
+
+- And in the main file **app.js**, we need to import this module.
+
+```
+const routes = require('./routing');
+```
+- We don't need to explicitly add a .js at the end, Node JS appends it by default. And then searches for any file named routing.js in the directory.
+- So we can pass the function reference in the createServer() method.
+
+```
+const http = require('http');
+const routes = require('./routing');
+
+const server = http.createServer(routes.handler);
+// As we have used handler as the key in the object while exporting.
+server.listen(3000);
+```
+- **Note:** One important thing to understand here is that, the file contents of modules are cached by Node JS, and you cannot change them on the go. i.e In the above code, we cannot see routes as an object and change its contents dynamically on the runtime. So once exported, we can only read and use the contents of the modules.
 
 
 
